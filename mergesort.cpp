@@ -1,8 +1,10 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <chrono>
 
 using namespace std;
+using namespace std::chrono;
 
 // merge sort
 // a divide-and-conquer algorithm. it divides the input array into two halves, calls itself for the two halves, and then merges the two sorted halves.
@@ -76,10 +78,15 @@ int main() {
     cout << "Original array: ";
     printArray(arr);
 
+    auto start = high_resolution_clock::now();
     mergeSort(arr, 0, n - 1);
+    auto stop = high_resolution_clock::now();
+    auto duration = duration_cast<microseconds>(stop - start);
 
     cout << "Sorted array: ";
     printArray(arr);
+
+    cout << "Time taken by function: " << duration.count() << " microseconds" << endl;
 
     return 0;
 }

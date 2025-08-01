@@ -6,16 +6,25 @@
 using namespace std;
 using namespace std::chrono;
 
-void bubbleSort(vector<int>& arr, int n) {
-    int i, j;
-    for (i = 0; i < n - 1; i++)
-        for (j = 0; j < n - i - 1; j++)
-            if (arr[j] > arr[j + 1])
-                swap(arr[j], arr[j + 1]);
+void bucketSort(vector<float>& arr, int n) {
+    vector<vector<float>> b(n);
+
+    for (int i = 0; i < n; i++) {
+        int bi = n * arr[i];
+        b[bi].push_back(arr[i]);
+    }
+
+    for (int i = 0; i < n; i++)
+        sort(b[i].begin(), b[i].end());
+
+    int index = 0;
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < b[i].size(); j++)
+            arr[index++] = b[i][j];
 }
 
-void printArray(const vector<int>& arr) {
-    for (int i : arr) {
+void printArray(const vector<float>& arr) {
+    for (float i : arr) {
         cout << i << " ";
     }
     cout << endl;
@@ -26,7 +35,7 @@ int main() {
     cout << "Enter the number of elements: ";
     cin >> n;
 
-    vector<int> arr(n);
+    vector<float> arr(n);
     cout << "Enter the elements separated by spaces: ";
     for (int i = 0; i < n; ++i) {
         cin >> arr[i];
@@ -36,7 +45,7 @@ int main() {
     printArray(arr);
 
     auto start = high_resolution_clock::now();
-    bubbleSort(arr, n);
+    bucketSort(arr, n);
     auto stop = high_resolution_clock::now();
     auto duration = duration_cast<microseconds>(stop - start);
 

@@ -6,12 +6,18 @@
 using namespace std;
 using namespace std::chrono;
 
-void bubbleSort(vector<int>& arr, int n) {
-    int i, j;
-    for (i = 0; i < n - 1; i++)
-        for (j = 0; j < n - i - 1; j++)
-            if (arr[j] > arr[j + 1])
-                swap(arr[j], arr[j + 1]);
+void insertionSort(vector<int>& arr, int n) {
+    int i, key, j;
+    for (i = 1; i < n; i++) {
+        key = arr[i];
+        j = i - 1;
+
+        while (j >= 0 && arr[j] > key) {
+            arr[j + 1] = arr[j];
+            j = j - 1;
+        }
+        arr[j + 1] = key;
+    }
 }
 
 void printArray(const vector<int>& arr) {
@@ -36,7 +42,7 @@ int main() {
     printArray(arr);
 
     auto start = high_resolution_clock::now();
-    bubbleSort(arr, n);
+    insertionSort(arr, n);
     auto stop = high_resolution_clock::now();
     auto duration = duration_cast<microseconds>(stop - start);
 
